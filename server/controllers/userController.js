@@ -103,6 +103,10 @@ class UserController {
       }
     })
   }
+
+  static addAProductToUser(req, res) {
+    User.findById
+  }
 }
 
 module.exports = UserController

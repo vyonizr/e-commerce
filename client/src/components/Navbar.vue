@@ -2,7 +2,7 @@
   <v-toolbar app dark color="#404040">
     <v-toolbar-title class="mr-3">
       <span style="font-family: 'Volkhov', serif; font-size: 2rem">
-        <router-link to="/" style="text-decoration: none; color: inherit;">Divenire</router-link>
+        <router-link to="/" class="playfair-display" style="text-decoration: none; color: inherit;">Divenire</router-link>
       </span>
     </v-toolbar-title>
     <v-toolbar-items class="hidden-sm-and-down">
@@ -17,8 +17,13 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-items>
-      <v-btn icon v-show="role === 'user' && token !== null">
-        <v-icon>shopping_cart</v-icon>
+      <v-btn to="/carts" icon v-show="role === 'user' && token !== null">
+        <v-badge left color="deep-orange darken-2">
+          <template v-slot:badge v-if="carts.length > 0">
+            <span>{{ carts.length }}</span>
+          </template>
+          <v-icon>shopping_cart</v-icon>
+        </v-badge>
       </v-btn>
       <v-btn to="/" @click="logout()" flat v-show="token !== null">
         LOGOUT
@@ -35,7 +40,7 @@
 
 <script>
 export default {
-  props: ['token', 'role'],
+  props: ['token', 'role', 'carts'],
   data: () => ({
   }),
   methods: {

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+
 .swal2-popoup {
   font-family: inherit
 }
@@ -7,4 +9,8 @@
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+.playfair-display {
+  font-family: 'Playfair Display', serif;
 }

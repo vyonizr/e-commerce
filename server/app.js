@@ -7,6 +7,8 @@ const cors = require("cors")
 const port = process.env.PORT || 80
 const routes = require("./routes")
 
+mongoose.set('useFindAndModify', false);
+
 // mongoose.connect("mongodb://localhost:27017/ecommerce-" + process.env.NODE_ENV, { useNewUrlParser: true })
 mongoose.connect("mongodb://localhost:27017/ecommerce", { useNewUrlParser: true })
 
@@ -15,6 +17,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.use("/", routes)
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
