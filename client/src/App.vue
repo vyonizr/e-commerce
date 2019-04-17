@@ -13,9 +13,11 @@
         :products="products"
         :role="role"
         :token="token"
+        :thousandSeparator="thousandSeparator"
         @addTocart="addToCart"
         @login="login"
         @removeFromCart="removeFromCart"
+        @getAllProducts="getAllProducts"
       />
     </v-content>
   </v-app>
@@ -45,6 +47,7 @@ export default {
 
   created () {
     this.getAllProducts()
+
     if (this.token !== null) {
       this.getCart()
     }
@@ -53,26 +56,26 @@ export default {
   methods: {
     getAllProducts () {
       axios.get('/products')
-      .then(({ data }) => {
-        this.products = data
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(({ data }) => {
+          this.products = data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
 
-    getCart() {
+    getCart () {
       axios.get('/carts', {
         headers: {
-          "authentication": localStorage.getItem("token")
+          'authentication': localStorage.getItem('token')
         }
       })
-      .then(({ data }) => {
-        this.carts = data
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(({ data }) => {
+          this.carts = data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
 
     login () {
@@ -95,16 +98,15 @@ export default {
         productId: product._id
       }, {
         headers: {
-          "authentication": localStorage.getItem("token")
+          'authentication': localStorage.getItem('token')
         }
       })
-      .then(({data}) => {
-        console.log(data);
-        this.carts = data
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        .then(({ data }) => {
+          this.carts = data
+        })
+        .catch(err => {
+          console.log(err)
+        })
 
       // this.carts.push(product)
     },
@@ -112,17 +114,26 @@ export default {
     removeFromCart (product) {
       axios.delete(`/carts/${product._id}`, {
         headers: {
-          "authentication": localStorage.getItem("token")
+          'authentication': localStorage.getItem('token')
         }
       })
-      .then(({data}) => {
-        this.carts = data
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        .then(({ data }) => {
+          this.carts = data
+        })
+        .catch(err => {
+          console.log(err)
+        })
       // const targetIndex = this.carts.findIndex(item => item._id === product._id)
       // this.carts.splice(targetIndex, 1)
+    },
+
+    thousandSeparator (num) {
+      num = String(num)
+      return (
+        num
+          .replace('.', ',')
+          .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+      )
     }
   }
 }

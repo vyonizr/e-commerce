@@ -88,6 +88,7 @@ export default {
             showConfirmButton: false,
             timer: 1500
           })
+          this.$router.push({ name: 'home' })
         })
         .catch(err => {
           let errorMessage = ''

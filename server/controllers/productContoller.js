@@ -4,6 +4,10 @@ const ObjectId = require('mongodb').ObjectID
 class ProductController {
   static getAllProducts(req, res) {
     Product.find({})
+    .populate({
+      path: "createdBy",
+      select: "name"
+    })
     .then(products => {
       res.status(200).json(products)
     })
@@ -13,12 +17,12 @@ class ProductController {
   }
 
   static createAProduct(req, res) {
-    console.log(req.file, "<= req.file");
     Product.create({
       name: req.body.name,
       image: req.file.cloudStoragePublicUrl,
       price: req.body.price,
-      stock: req.body.stock
+      stock: req.body.stock,
+      createdBy: req.authenticatedUser.id
     })
     .then(createdProduct => {
       res.status(201).json(createdProduct)
@@ -29,8 +33,8 @@ class ProductController {
         if (err.errors.name) {
           objError.name = err.errors.name.message
         }
-        if (err.errors.description) {
-          objError.description = err.errors.description.message
+        if (err.errors.image) {
+          objError.description = err.errors.image.message
         }
         if (err.errors.price) {
           objError.price = err.errors.price.message
@@ -43,6 +47,7 @@ class ProductController {
         })
       }
       else {
+        console.log(err);
         res.status(500).json(err)
       }
     })
@@ -58,7 +63,45 @@ class ProductController {
       })
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json(err)
+    })
+  }
+
+  static updateAProduct(req, res) {
+    Product.findByIdAndUpdate(req.params.productId, {
+      name: req.body.name,
+      image: req.file.cloudStoragePublicUrl,
+      price: req.body.price,
+      stock: req.body.stock
+    }, { new: true })
+    .then(createdProduct => {
+      console.log(createdProduct);
+      res.status(201).json(createdProduct)
+    })
+    .catch(err => {
+      if (err.errors) {
+        let objError = {}
+        if (err.errors.name) {
+          objError.name = err.errors.name.message
+        }
+        if (err.errors.image) {
+          objError.description = err.errors.image.message
+        }
+        if (err.errors.price) {
+          objError.price = err.errors.price.message
+        }
+        if (err.errors.stock) {
+          objError.stock = err.errors.stock.message
+        }
+        res.status(400).json({
+          errors: objError
+        })
+      }
+      else {
+        console.log(err);
+        res.status(500).json(err)
+      }
     })
   }
 }

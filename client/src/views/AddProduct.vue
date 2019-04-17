@@ -1,8 +1,10 @@
 <template>
-  <v-container>
-    <v-layout>
+  <v-container grid-list-lg>
+    <v-layout align-center justify-center row wrap>
       <v-flex lg12>
-        <AddProductForm/>
+        <AddProductForm
+        @getAllProducts="getAllProducts"
+        />
       </v-flex>
     </v-layout>
   </v-container>
@@ -15,6 +17,12 @@ export default {
   props: ['role'],
   components: {
     AddProductForm
+  },
+
+  methods: {
+    getAllProducts () {
+      this.$emit('getAllProducts')
+    }
   }
 }
 </script>

@@ -34,6 +34,10 @@ const productSchema = new Schema({
       message: "Stock should not have a negative value"
     }
   },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User"
+  }
 })
 
 const Product = mongoose.model("Product", productSchema)

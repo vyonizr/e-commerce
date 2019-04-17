@@ -9,12 +9,12 @@
         >
           <template v-slot:items="props">
             <td>{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.price }}</td>
-            <td class="text-xs-center"><v-icon @click="removeFromCart(props.item)">delete</v-icon></td>
+            <td class="text-xs-right">Rp {{ thousandSeparator(props.item.price) }}</td>
+            <td class="text-xs-center"><v-icon @click="removeFromCart(props.item)">clear</v-icon></td>
           </template>
           <template v-slot:footer>
             <td :colspan="headers.length">
-              <strong>Total: Rp {{ totalPrice }}</strong>
+              <strong>Total: Rp {{ thousandSeparator(totalPrice) }}</strong>
             </td>
           </template>
         </v-data-table>
@@ -24,14 +24,15 @@
 </template>
 
 <script>
+
 export default {
-  props: ['carts', 'role'],
-  data() {
+  props: ['carts', 'role', 'thousandSeparator'],
+  data () {
     return {
       headers: [
-        {text: "Product", value: "name"},
-        {text: "Price", value: "price"},
-        {text: "Option", value: 'name', sortable: false}
+        { text: 'Product', value: 'name' },
+        { text: 'Price', align: 'right', value: 'price' },
+        { text: 'Option', align: 'center', value: 'name', sortable: false }
       ]
     }
   },
@@ -41,13 +42,13 @@ export default {
     }
   },
   computed: {
-    totalPrice() {
+    totalPrice () {
       let result = 0
       this.carts.forEach(item => {
         result += item.price
       })
       return result
     }
-  },
+  }
 }
 </script>

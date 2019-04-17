@@ -38,7 +38,6 @@ class CartController {
     .populate("carts")
     .select("carts")
     .then(updatedUser => {
-      console.log(updatedUser);
       res.status(200).json(updatedUser.carts)
     })
     .catch(err => {

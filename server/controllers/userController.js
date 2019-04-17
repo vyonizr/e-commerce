@@ -104,6 +104,41 @@ class UserController {
     })
   }
 
+  static adminRegister(req, res) {
+    User.create({
+      email: req.body.email,
+      name: req.body.name,
+      password: req.body.password,
+      role: "admin"
+    })
+    .then(createdAdmin => {
+      res.status(201).json(createdAdmin)
+    })
+    .catch(err => {
+      if (err.errors) {
+        let objError = {}
+        if (err.errors.email) {
+          objError.email = err.errors.email.message
+        }
+        if (err.errors.name) {
+          objError.name = err.errors.name.message
+        }
+        if (err.errors.password) {
+          objError.password = err.errors.password.message
+        }
+        if (err.errors.role) {
+          objError.password = err.errors.role.message
+        }
+        res.status(400).json({
+          errors: objError
+        })
+      }
+      else {
+        res.status(500).json(err)
+      }
+    })
+  }
+
   static addAProductToUser(req, res) {
     User.findById
   }

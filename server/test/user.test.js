@@ -3,15 +3,27 @@ const chai = require("chai")
 const chaiHttp = require("chai-http")
 const expect = chai.expect
 chai.use(chaiHttp)
-const { clearUser } = require("../helpers/")
+const { User } = require("../models/")
 
 before(function(done) {
-  clearUser()
+  User
+  .deleteMany({})
+  .then(() => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
   done()
 });
 
 after(function(done) {
-  clearUser()
+  User
+  .deleteMany({})
+  .then(() => {
+  })
+  .catch(err => {
+    console.log(err);
+  });
   done()
 });
 

@@ -3,7 +3,7 @@ const chai = require("chai")
 const chaiHttp = require("chai-http")
 const expect = chai.expect
 chai.use(chaiHttp)
-const { clearProduct, clearUser } = require("../helpers/")
+// const { clearProduct, clearUser } = require("../helpers/")
 const { Product, User } = require("../models")
 const { jwt } = require("../helpers")
 
@@ -13,27 +13,17 @@ let userToken = null
 
 describe.only("Product Test", function() {
   // BEFORE MAIN TEST
-  before(function(done) {
-    Product
-    .deleteMany({})
+  before(function() {
+    Product.deleteMany({})
     .then(() => {
+      return User.deleteMany({})
     })
-    .catch(err => {
-      console.log(err);
-    });
-
-    User
-    .deleteMany({})
     .then(() => {
-    })
-    .catch(err => {
-      console.log(err);
-    });
-
-    User.create({
-      email: "afit@mail.com",
-      name: "Fitrahtur Rahman",
-      password: "123",
+      return User.create({
+        email: "afit@mail.com",
+        name: "Fitrahtur Rahman",
+        password: "123",
+      })
     })
     .then(createdUser => {
       adminToken = jwt.sign({
@@ -42,15 +32,12 @@ describe.only("Product Test", function() {
         name: createdUser.name,
         role: "administrator"
       })
-    })
-    .catch(err => {
-      console.log(err);
-    })
 
-    User.create({
-      email: "vue@mail.com",
-      name: "Vue",
-      password: "123",
+      return User.create({
+        email: "vue@mail.com",
+        name: "Vue",
+        password: "123",
+      })
     })
     .then(createdUser => {
       userToken = jwt.sign({
@@ -58,7 +45,6 @@ describe.only("Product Test", function() {
         email: createdUser.email,
         name: createdUser.name
       })
-      done()
     })
     .catch(err => {
       console.log(err);
@@ -67,7 +53,7 @@ describe.only("Product Test", function() {
 
   // MAIN TEST
   describe("POST /products", function() {
-    describe.only("ON SUCCESS", function() {
+    describe("ON SUCCESS", function() {
       it("should return status 201 and { object product }", function(done) {
         let objProduct = {
           name: "Nicebuoy",
@@ -78,8 +64,8 @@ describe.only("Product Test", function() {
 
         chai
         .request(app)
-        .post("/products")
         .set("authentication", adminToken)
+        .post("/products")
         .send(objProduct)
         .end((err, res) => {
           productId = res.body._id
@@ -176,8 +162,8 @@ describe.only("Product Test", function() {
 
           chai
           .request(app)
-          .post("/products")
           .set("authentication", adminToken)
+          .post("/products")
           .send(objProduct)
           .end((err, res) => {
             expect(err).to.equal(null)
@@ -202,8 +188,8 @@ describe.only("Product Test", function() {
 
           chai
           .request(app)
-          .post("/products")
           .set("authentication", adminToken)
+          .post("/products")
           .send(objProduct)
           .end((err, res) => {
             expect(err).to.equal(null)
