@@ -46,7 +46,7 @@ export default {
   },
 
   created () {
-    this.getAllProducts()
+    this.$store.dispatch("getAllProducts")
 
     if (this.token !== null) {
       this.getCart()

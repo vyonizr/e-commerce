@@ -1,4 +1,4 @@
-const { Product } = require("../models")
+const { Product, User } = require("../models")
 const ObjectId = require('mongodb').ObjectID
 
 class ProductController {
@@ -54,8 +54,17 @@ class ProductController {
   }
 
   static deleteAProduct(req, res) {
-    Product.deleteOne({
-      _id: req.params.productId
+    User.update({}, {
+      $pull: {
+        carts: {
+          _id: req.params.productId
+        }
+      }
+    })
+    .then(() => {
+      return Product.deleteOne({
+        _id: req.params.productId
+      })
     })
     .then(() => {
       res.status(200).json({
@@ -107,3 +116,9 @@ class ProductController {
 }
 
 module.exports = ProductController
+
+/*
+User.update({},
+{$pull : { "carts" : {"_id": req.params.productId} } } )
+https://stackoverflow.com/questions/22065314/remove-a-subdocument-nested-in-an-array-in-mongodb
+*/

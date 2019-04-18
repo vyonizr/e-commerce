@@ -76,37 +76,37 @@ export default {
         email: this.emailInput,
         password: this.passwordInput
       })
-        .then(({ data }) => {
-          localStorage.setItem('token', data.token)
-          localStorage.setItem('id', data.id)
-          localStorage.setItem('name', data.name)
-          localStorage.setItem('role', data.role)
-          localStorage.setItem('authMethod', 'basic')
+      .then(({ data }) => {
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('id', data.id)
+        localStorage.setItem('name', data.name)
+        localStorage.setItem('role', data.role)
+        localStorage.setItem('authMethod', 'basic')
 
-          this.$emit('login')
+        this.$emit('login')
 
-          Swal.fire({
-            type: 'success',
-            title: `Welcome, ${localStorage.getItem('name')}!`,
-            showConfirmButton: false,
-            timer: 1500
-          })
+        Swal.fire({
+          type: 'success',
+          title: `Welcome, ${localStorage.getItem('name')}!`,
+          showConfirmButton: false,
+          timer: 1500
         })
-        .catch(err => {
-          let errorMessage = ''
-          if (err.response.data.errors) {
-            for (let key in err.response.data.errors) {
-              errorMessage += err.response.data.errors[key] + '\n'
-            }
+      })
+      .catch(err => {
+        let errorMessage = ''
+        if (err.response.data.errors) {
+          for (let key in err.response.data.errors) {
+            errorMessage += err.response.data.errors[key] + '\n'
           }
-          Swal.fire({
-            type: 'error',
-            text: errorMessage,
-            showConfirmButton: false,
-            timer: 1000
-          })
-          console.log(err.response.data)
+        }
+        Swal.fire({
+          type: 'error',
+          text: errorMessage,
+          showConfirmButton: false,
+          timer: 1000
         })
+        console.log(err.response.data)
+      })
     }
   }
 }

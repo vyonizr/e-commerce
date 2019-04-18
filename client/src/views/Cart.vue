@@ -13,8 +13,15 @@
             <td class="text-xs-center"><v-icon @click="removeFromCart(props.item)">clear</v-icon></td>
           </template>
           <template v-slot:footer>
-            <td :colspan="headers.length">
+            <td :colspan="headers.length -2">
               <strong>Total: Rp {{ thousandSeparator(totalPrice) }}</strong>
+            </td>
+            <td :colspan="headers.length -1" class="text-xs-right">
+              <v-btn
+                flat
+                color="info">
+                CHECKOUT
+              </v-btn>
             </td>
           </template>
         </v-data-table>
@@ -31,8 +38,8 @@ export default {
     return {
       headers: [
         { text: 'Product', value: 'name' },
-        { text: 'Price', align: 'right', value: 'price' },
-        { text: 'Option', align: 'center', value: 'name', sortable: false }
+        { text: 'Price', value: 'price', align: 'right' },
+        { text: 'Option', value: 'name', align: 'center', sortable: false }
       ]
     }
   },

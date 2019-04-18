@@ -49,17 +49,16 @@ import Swal from 'sweetalert2'
 export default {
   data: () => ({
     valid: true,
-    productName: 'ABC',
+    productName: '',
     productNameRules: [
-      v => !!v || 'Product name is required',
-      v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+      v => !!v || 'Product name is required'
     ],
-    productPrice: 500,
+    productPrice: '',
     productPriceRules: [
       v => v > 0 || 'No zero or negative value',
       v => String(v)[0] !== '0' || 'Price should not start with zero'
     ],
-    productStock: 65,
+    productStock: '',
     productStockRules: [
       v => v > 0 || 'No zero or negative value',
       v => String(v)[0] !== '0' || 'Stock should not start with zero'
@@ -104,7 +103,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500
               })
-              this.$emit('getAllProducts')
+              this.$store.dispatch("getAllProducts")
               this.$router.push({ name: 'home' })
             })
             .catch(err => {

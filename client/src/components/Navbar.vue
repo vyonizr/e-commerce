@@ -6,11 +6,11 @@
       </span>
     </v-toolbar-title>
     <v-toolbar-items class="hidden-sm-and-down">
-      <v-btn to="/catalogues" flat>
+      <!-- <v-btn to="/catalogues" flat>
         CATALOGUES
-      </v-btn>
+      </v-btn> -->
       <v-btn to="/add-product" flat v-show="role === 'admin' && token !== null">
-        ADD PRODUCT
+        <span class="oswald subheading">ADD PRODUCT</span> 
       </v-btn>
     </v-toolbar-items>
 
@@ -26,17 +26,22 @@
         </v-badge>
       </v-btn>
       <v-btn to="/" @click="logout()" flat v-show="token !== null">
-        LOGOUT
+        <span class="oswald subheading">LOGOUT</span>
       </v-btn>
       <v-btn to="/users/login" flat v-show="token === null">
-        LOGIN
+        <span class="oswald subheading">LOGIN</span>
       </v-btn>
       <v-btn to="/users/register" flat v-show="token === null">
-        REGISTER
+        <span class="oswald subheading">REGISTER</span>
       </v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
+
+<style>
+  @import "../assets/css/index.css";
+</style>
+
 
 <script>
 export default {
