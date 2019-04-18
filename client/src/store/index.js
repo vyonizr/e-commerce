@@ -16,7 +16,7 @@ export default new Vuex.Store({
       state.products = payload
     },
     setEditedProduct(state, payload) {
-      state.editProduct = payload
+      state.editedProduct = payload
     }
   },
 

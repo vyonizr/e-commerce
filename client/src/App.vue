@@ -40,7 +40,7 @@ export default {
     return {
       token: localStorage.getItem('token'),
       role: localStorage.getItem('role'),
-      products: [],
+      products: this.$store.state.products,
       carts: []
     }
   },

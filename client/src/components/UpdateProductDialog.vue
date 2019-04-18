@@ -36,8 +36,8 @@
       </v-form>
 
       <v-card-actions class="justify-center">
-        <v-btn outline color="grey" @click="updateAnArticleModal = false;">CANCEL</v-btn>
-        <v-btn color="success" @click="updateAnArticleModal = false; updateAnArticle();">UPDATE</v-btn>
+        <v-btn outline color="grey">CANCEL</v-btn>
+        <v-btn color="success">UPDATE</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -48,16 +48,16 @@ export default {
   data: () => {
     return {
       valid: true,
-      productName: '',
+      productName: "",
       productNameRules: [
         v => !!v || 'Product name is required'
       ],
-      productPrice: '',
+      productPrice: "",
       productPriceRules: [
         v => v > 0 || 'No zero or negative value',
         v => String(v)[0] !== '0' || 'Price should not start with zero'
       ],
-      productStock: '',
+      productStock: "",
       productStockRules: [
         v => v > 0 || 'No zero or negative value',
         v => String(v)[0] !== '0' || 'Stock should not start with zero'
@@ -119,6 +119,12 @@ export default {
 
       this.formData = formData
     },
-  }
+  },
+
+  validate () {
+    if (this.$refs.updateProductForm.validate()) {
+      this.snackbar = true
+    }
+  },
 }
 </script>
