@@ -13,40 +13,59 @@ let userToken = null
 
 describe.only("Product Test", function() {
   // BEFORE MAIN TEST
-  before(function() {
-    Product.deleteMany({})
-    .then(() => {
-      return User.deleteMany({})
+  before(function (done) {
+    User.deleteMany({})
+    .then(function () {
+      return Product.deleteMany({})
     })
-    .then(() => {
+    .then(function () {
       return User.create({
         email: "afit@mail.com",
         name: "Fitrahtur Rahman",
         password: "123",
+        role: "admin"
       })
     })
-    .then(createdUser => {
-      adminToken = jwt.sign({
-        id: createdUser._id,
-        email: createdUser.email,
-        name: createdUser.name,
-        role: "administrator"
+    .then(createdAdmin => {
+      const token = jwt.sign({
+        id: createdAdmin._id,
+        email: createdAdmin.email,
+        name: createdAdmin.name,
+        role: createdAdmin.role
       })
 
+      adminToken = token
       return User.create({
-        email: "vue@mail.com",
-        name: "Vue",
+        email: "batu@mail.com",
+        name: "Batu Apung",
         password: "123",
       })
     })
     .then(createdUser => {
-      userToken = jwt.sign({
+      const token = jwt.sign({
         id: createdUser._id,
         email: createdUser.email,
-        name: createdUser.name
+        name: createdUser.name,
+        role: createdUser.role
       })
+
+      userToken = token
+      done()
     })
-    .catch(err => {
+    .catch(function (err) {
+      console.log(err);
+    })
+  });
+
+  after(function (done) {
+    User.deleteMany({})
+    .then(function () {
+      return Product.deleteMany({})
+    })
+    .then(function () {
+      done();
+    })
+    .catch(function (err) {
       console.log(err);
     })
   });
@@ -64,8 +83,8 @@ describe.only("Product Test", function() {
 
         chai
         .request(app)
-        .set("authentication", adminToken)
         .post("/products")
+        .set("authentication", adminToken)
         .send(objProduct)
         .end((err, res) => {
           productId = res.body._id

@@ -3,17 +3,28 @@ const ObjectId = require('mongodb').ObjectID
 
 class ProductController {
   static getAllProducts(req, res) {
-    Product.find({})
-    .populate({
-      path: "createdBy",
-      select: "name"
-    })
-    .then(products => {
-      res.status(200).json(products)
-    })
-    .catch(err => {
-      res.status(500).json(err)
-    })
+    if(req.query.productId) {
+      Product.findById(req.query.productId)
+      .then(products => {
+        res.status(200).json(products)
+      })
+      .catch(err => {
+        res.status(500).json(err)
+      })
+    }
+    else {
+      Product.find({})
+      .populate({
+        path: "createdBy",
+        select: "name"
+      })
+      .then(products => {
+        res.status(200).json(products)
+      })
+      .catch(err => {
+        res.status(500).json(err)
+      })
+    }
   }
 
   static createAProduct(req, res) {
@@ -47,7 +58,6 @@ class ProductController {
         })
       }
       else {
-        console.log(err);
         res.status(500).json(err)
       }
     })

@@ -24,9 +24,14 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/catalogues',
+      path: '/catalogues/:productId',
       name: 'catalogues',
-      component: Catalogues
+      component: Catalogues,
+      children: [{
+        path: 'details',
+        name: 'productDetail',
+        component: () => import('./views/ProductDetail.vue')
+      }]
     },
     {
       path: '/add-product',

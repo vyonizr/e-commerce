@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-lg>
     <v-layout align-center justify-center row wrap>
-      <v-flex lg12>
+      <v-flex d-flex lg4>
         <AddProductForm
         @getAllProducts="getAllProducts"
         />

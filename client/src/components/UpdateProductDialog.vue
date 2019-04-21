@@ -1,5 +1,7 @@
 <template>
-  <v-dialog>
+  <v-dialog
+    width="500"
+  >
     <v-card>
       <v-form
         ref="updateProductForm"

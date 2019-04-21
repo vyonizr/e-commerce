@@ -7,25 +7,32 @@
         contain
       ></v-img>
 
-      <v-card-title primary-title>
+      <v-card-title primary-title class="blue-grey lighten-4">
         <div>
           <h4 class="headline mb-0 heebo">{{ product.name }}</h4>
           <p>Rp {{ thousandSeparator(product.price) }}</p>
         </div>
       </v-card-title>
 
-      <v-card-actions v-if="role === 'admin'">
+      <v-card-actions v-if="role === 'admin'" class="grey lighten-3">
+        <v-btn
+          :to="{ name: 'productDetail', params: { productId: product._id}}"
+          flat
+          color="secondary"
+          >Details
+        </v-btn>
         <v-spacer></v-spacer>
-        <v-dialog v-model="updateDialog" pa-4>
+        <v-dialog v-model="updateDialog"
+          width="400"
+        >
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark v-on="on" @click="editProduct(product)">EDIT</v-btn>
+            <v-btn color="primary" outline dark v-on="on" @click="editProduct(product)">EDIT</v-btn>
           </template>
-          <v-card class="justify-center">
+          <v-card style="padding: 30px; border-radius: 10px;">
             <v-form
               ref="updateProductForm"
               v-model="valid"
               lazy-validation
-              style="width: 400px;"
             >
               <v-text-field
                 v-model="productName"
@@ -61,12 +68,18 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-btn flat color="red" @click="removeProduct(product)">Delete</v-btn>
+        <v-btn mx-1 flat color="red" @click="removeProduct(product)">Delete</v-btn>
       </v-card-actions>
-      <v-card-actions v-else-if="role !== 'admin'">
+      <v-card-actions v-else-if="role !== 'admin'" class="grey lighten-3">
+        <v-btn
+          :to="{ name: 'productDetail', params: { productId: product._id}}"
+          flat
+          color="secondary"
+          >Details
+        </v-btn>
         <v-spacer></v-spacer>
         <v-btn
-          to="/users/register"
+          to="/users/login"
           flat
           color="primary"
           v-if="role === null"

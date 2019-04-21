@@ -2,7 +2,7 @@
   <v-container>
     <v-layout align-center justify-center column fill-height >
       <v-flex lg12>
-        <h2>Welcome back</h2>
+        <h2>Login</h2>
         <v-form
           ref="loginForm"
           v-model="valid"

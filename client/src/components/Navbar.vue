@@ -9,7 +9,7 @@
       <!-- <v-btn to="/catalogues" flat>
         CATALOGUES
       </v-btn> -->
-      <v-btn to="/add-product" flat v-show="role === 'admin' && token !== null">
+      <v-btn to="/add-product" flat :ripple="false" v-show="role === 'admin' && token !== null">
         <span class="oswald subheading">ADD PRODUCT</span> 
       </v-btn>
     </v-toolbar-items>
@@ -17,7 +17,7 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-items>
-      <v-btn to="/carts" icon v-show="role === 'user' && token !== null">
+      <v-btn to="/carts" icon :ripple="false" v-show="role === 'user' && token !== null">
         <v-badge left color="deep-orange darken-2">
           <template v-slot:badge v-if="carts.length > 0">
             <span>{{ carts.length }}</span>
@@ -25,13 +25,13 @@
           <v-icon>shopping_cart</v-icon>
         </v-badge>
       </v-btn>
-      <v-btn to="/" @click="logout()" flat v-show="token !== null">
+      <v-btn to="/" @click="logout()" flat :ripple="false" v-show="token !== null">
         <span class="oswald subheading">LOGOUT</span>
       </v-btn>
-      <v-btn to="/users/login" flat v-show="token === null">
+      <v-btn to="/users/login" flat :ripple="false" v-show="token === null">
         <span class="oswald subheading">LOGIN</span>
       </v-btn>
-      <v-btn to="/users/register" flat v-show="token === null">
+      <v-btn to="/users/register" flat :ripple="false" v-show="token === null">
         <span class="oswald subheading">REGISTER</span>
       </v-btn>
     </v-toolbar-items>
