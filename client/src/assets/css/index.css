@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+@import url('https://fonts.googleapis.com/css?family=Heebo');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+
+.swal2-popup {
+  font-family: 'Heebo', sans-serif !important;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 15s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+.playfair-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.heebo {
+  font-family: 'Heebo', sans-serif;
+}
+
+.oswald {
+  font-family: 'Oswald', sans-serif;
+}
