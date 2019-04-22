@@ -9,8 +9,14 @@ const routes = require("./routes")
 
 mongoose.set('useFindAndModify', false);
 
+// FOR TESTING
 // mongoose.connect("mongodb://localhost:27017/ecommerce-" + process.env.NODE_ENV, { useNewUrlParser: true })
-mongoose.connect("mongodb://localhost:27017/ecommerce", { useNewUrlParser: true })
+
+// LOCAL MONGODB
+// mongoose.connect("mongodb://localhost:27017/ecommerce", { useNewUrlParser: true })
+
+// MONGODB ATLAS
+mongoose.connect(`mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@divenire-1se8t.gcp.mongodb.net/ecommerce`, { useNewUrlParser: true })
 
 app.use(cors())
 app.use(express.json())

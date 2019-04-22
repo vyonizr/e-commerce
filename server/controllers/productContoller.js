@@ -94,9 +94,8 @@ class ProductController {
       price: req.body.price,
       stock: req.body.stock
     }, { new: true })
-    .then(createdProduct => {
-      console.log(createdProduct);
-      res.status(201).json(createdProduct)
+    .then(updatedProduct => {
+      res.status(200).json(updatedProduct)
     })
     .catch(err => {
       if (err.errors) {

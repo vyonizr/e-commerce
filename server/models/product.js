@@ -8,7 +8,7 @@ const productSchema = new Schema({
   },
   image: {
     type: String,
-    required: [true, "Product URL should not be empty"]
+    required: [true, "Product image URL should not be empty"]
   },
   price: {
     type: Number,

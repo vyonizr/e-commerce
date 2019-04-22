@@ -1,26 +1,25 @@
 <template>
   <v-flex lg3 ma-3>
-    <v-card>
-      <v-img
-        :src="product.image"
-        height="125"
-        contain
-      ></v-img>
+    <v-card hover>
+      <router-link
+        :to="{ name: 'productDetail', params: { productId: product._id}}"
+        style="text-decoration: none; color: inherit;"
+      >
+        <v-img
+          :src="product.image"
+          height="125"
+          contain
+        ></v-img>
 
-      <v-card-title primary-title class="blue-grey lighten-4">
-        <div>
-          <h4 class="headline mb-0 heebo">{{ product.name }}</h4>
-          <p>Rp {{ thousandSeparator(product.price) }}</p>
-        </div>
-      </v-card-title>
+        <v-card-title primary-title class="blue-grey lighten-4">
+          <div>
+            <h4 class="headline mb-0 heebo">{{ product.name }}</h4>
+            <p>Rp {{ thousandSeparator(product.price) }}</p>
+          </div>
+        </v-card-title>
+      </router-link>
 
       <v-card-actions v-if="role === 'admin'" class="grey lighten-3">
-        <v-btn
-          :to="{ name: 'productDetail', params: { productId: product._id}}"
-          flat
-          color="secondary"
-          >Details
-        </v-btn>
         <v-spacer></v-spacer>
         <v-dialog v-model="updateDialog"
           width="400"
@@ -71,12 +70,6 @@
         <v-btn mx-1 flat color="red" @click="removeProduct(product)">Delete</v-btn>
       </v-card-actions>
       <v-card-actions v-else-if="role !== 'admin'" class="grey lighten-3">
-        <v-btn
-          :to="{ name: 'productDetail', params: { productId: product._id}}"
-          flat
-          color="secondary"
-          >Details
-        </v-btn>
         <v-spacer></v-spacer>
         <v-btn
           to="/users/login"
@@ -107,20 +100,20 @@ import Swal from 'sweetalert2'
 
 export default {
   props: ['product', 'carts', 'role', 'thousandSeparator', 'showUpdateProductModal'],
-  data() {
+  data () {
     return {
       updateDialog: false,
       valid: true,
-      productName: "",
+      productName: '',
       productNameRules: [
         v => !!v || 'Product name is required'
       ],
-      productPrice: "",
+      productPrice: '',
       productPriceRules: [
         v => v > 0 || 'No zero or negative value',
         v => String(v)[0] !== '0' || 'Price should not start with zero'
       ],
-      productStock: "",
+      productStock: '',
       productStockRules: [
         v => v > 0 || 'No zero or negative value',
         v => String(v)[0] !== '0' || 'Stock should not start with zero'
@@ -144,7 +137,7 @@ export default {
     removeProduct (product) {
       this.$store.dispatch('removeProduct', product)
     },
-    editProduct(product) {
+    editProduct (product) {
       this.$emit('showUpdateProductModal')
       this.$store.dispatch('editProduct', product)
       this.productName = product.name
@@ -184,8 +177,8 @@ export default {
               })
 
               this.updateDialog = false
-              this.$store.dispatch("getAllProducts")
-              // this.$router.push({ name: 'home' })
+              this.$store.dispatch('getAllProducts')
+            // this.$router.push({ name: 'home' })
             })
             .catch(err => {
               console.log(err)
@@ -207,7 +200,7 @@ export default {
 
       console.log(formData)
       this.formData = formData
-    },
-  },
+    }
+  }
 }
 </script>

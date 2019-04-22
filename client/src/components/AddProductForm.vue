@@ -103,7 +103,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500
               })
-              this.$store.dispatch("getAllProducts")
+              this.$store.dispatch('getAllProducts')
               this.$router.push({ name: 'home' })
             })
             .catch(err => {

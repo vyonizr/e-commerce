@@ -35,23 +35,23 @@ import axios from '../api/axios'
 
 export default {
   props: ['thousandSeparator'],
-  data() {
+  data () {
     return {
       productDetail: {}
     }
   },
-  created() {
+  created () {
     this.getProductDetail()
   },
   methods: {
-    getProductDetail() {
+    getProductDetail () {
       axios.get(`/products?productId=${this.$route.params.productId}`)
-      .then(({ data }) => {
-        this.productDetail = data
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        .then(({ data }) => {
+          this.productDetail = data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

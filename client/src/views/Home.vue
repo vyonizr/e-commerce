@@ -28,11 +28,11 @@ import UpdateProductDialog from '../components/UpdateProductDialog'
 export default {
   props: ['products', 'carts', 'role', 'thousandSeparator'],
   data: () => {
-    return  {
+    return {
       updateProductModal: false
     }
   },
-  mounted() {
+  mounted () {
     this.$store.dispatch('getAllProducts')
   },
   components: {
@@ -46,7 +46,7 @@ export default {
     removeFromCart (product) {
       this.$emit('removeFromCart', product)
     },
-    showUpdateProductModal() {
+    showUpdateProductModal () {
       this.updateProductModal = !this.updateProductModal
     }
   }

@@ -20,57 +20,83 @@ class UserController {
   }
 
   static userLogin(req, res) {
-    User.findOne({
-      email: req.body.email
-    })
-    .then(foundUser => {
-      if (!foundUser) {
-        res.status(401).json({
-          errors: {
-            password:"Wrong username/password"
-          }
-        })
-      }
-      else if (bcrypt.compareSync(req.body.password, foundUser.password)) {
-        const token = jwt.sign({
-          id: foundUser._id,
-          email: foundUser.email,
-          name: foundUser.name,
-          role: foundUser.role
-        })
+    if (req.body.email === "" && req.body.password === "") {
+      res.status(400).json({
+        errors: {
+          email: "Email should not be empty",
+          password: "Password should not be empty"
+        }
+      })
+    }
+    else if (req.body.email === "") {
+      res.status(400).json({
+        errors: {
+          email: "Email should not be empty",
+        }
+      })
+    }
+    else if (req.body.password === "") {
+      res.status(400).json({
+        errors: {
+          password: "Password should not be empty"
+        }
+      })
+    }
+    else {
+      User.findOne({
+        email: req.body.email
+      })
+      .then(foundUser => {
+        if (!foundUser) {
+          res.status(401).json({
+            errors: {
+              email: "Invalid email/password",
+              password:"Invalid email/password"
+            }
+          })
+        }
+        else if (bcrypt.compareSync(req.body.password, foundUser.password)) {
+          const token = jwt.sign({
+            id: foundUser._id,
+            email: foundUser.email,
+            name: foundUser.name,
+            role: foundUser.role
+          })
 
-        res.status(200).json({
-          token,
-          id: foundUser._id,
-          name: foundUser.name,
-          role: foundUser.role
-        })
-      }
-      else {
-        res.status(401).json({
-          errors: {
-            password:"Wrong username/password"
+          res.status(200).json({
+            token,
+            id: foundUser._id,
+            name: foundUser.name,
+            role: foundUser.role
+          })
+        }
+        else {
+          res.status(401).json({
+            errors: {
+              email: "Invalid email/password",
+              password:"Invalid email/password"
+            }
+          })
+        }
+      })
+      .catch(err => {
+        if (err.errors) {
+          let objError = {}
+          if (err.errors.email) {
+            objError.email = err.errors.email.message
           }
-        })
-      }
-    })
-    .catch(err => {
-      if (err.errors) {
-        let objError = {}
-        if (err.errors.email) {
-          objError.email = err.errors.email.message
+          if (err.errors.password) {
+            objError.password = err.errors.password.message
+          }
+          res.status(400).json({
+            errors: objError
+          })
         }
-        if (err.errors.password) {
-          objError.password = err.errors.password.message
+        else {
+          res.status(500).json(err)
         }
-        res.status(400).json({
-          errors: objError
-        })
-      }
-      else {
-        res.status(500).json(err)
-      }
-    })
+      })
+    }
   }
 
   static userRegister(req, res) {

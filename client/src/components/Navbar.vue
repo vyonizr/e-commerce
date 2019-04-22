@@ -10,7 +10,7 @@
         CATALOGUES
       </v-btn> -->
       <v-btn to="/add-product" flat :ripple="false" v-show="role === 'admin' && token !== null">
-        <span class="oswald subheading">ADD PRODUCT</span> 
+        <span class="oswald subheading">ADD PRODUCT</span>
       </v-btn>
     </v-toolbar-items>
 
@@ -41,7 +41,6 @@
 <style>
   @import "../assets/css/index.css";
 </style>
-
 
 <script>
 export default {

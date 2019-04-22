@@ -32,8 +32,8 @@ describe("User Test", function() {
     describe("ON SUCCESS", function() {
       it("should return status 201 and { object user }", function(done) {
         const objUser = {
-          email: "afit@mail.com",
-          name: "Fitrahtur Rahman",
+          email: "batu@mail.com",
+          name: "Batu Apung",
           password: "123",
         }
 
@@ -55,8 +55,8 @@ describe("User Test", function() {
           expect(res.body.email).to.be.a("string")
           expect(res.body.name).to.be.a("string")
           expect(res.body.password).to.be.a("string")
-          expect(res.body.role).to.be.an("array")
-          expect(res.body.carts).to.be.a("string")
+          expect(res.body.role).to.be.a("string")
+          expect(res.body.carts).to.be.an("array")
           done()
         })
       })
@@ -66,8 +66,8 @@ describe("User Test", function() {
       describe("Email is already registered", function() {
         it("should return status 400 and { object error }", function(done) {
           const objUser = {
-            email: "afit@mail.com",
-            name: "Fitrahtur Rahman",
+            email: "batu@mail.com",
+            name: "Batu Apung",
             password: "123",
           }
 
@@ -120,7 +120,7 @@ describe("User Test", function() {
         it("should return status 400 and { object error }", function(done) {
           const objUser = {
             email: "",
-            name: "Muhammad Hermi",
+            name: "Cuka Apel",
             password: "123",
           }
 
@@ -144,7 +144,7 @@ describe("User Test", function() {
       describe("No name input", function() {
         it("should return status 400 and { object error }", function(done) {
           const objUser = {
-            email: "hermi@mail.com",
+            email: "cuka@mail.com",
             name: "",
             password: "123",
           }
@@ -169,8 +169,8 @@ describe("User Test", function() {
       describe("No password input", function() {
         it("should return status 400 and { object error }", function(done) {
           const objUser = {
-            email: "hermi@mail.com",
-            name: "Muhammad Hermi",
+            email: "cuka@mail.com",
+            name: "Cuka Apel",
             password: "",
           }
 
@@ -190,6 +190,250 @@ describe("User Test", function() {
           })
         })
       })
+
+      describe("No email and name input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "",
+            name: "",
+            password: "123",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors).to.have.property("name")
+            expect(res.body.errors.email).to.be.a("string")
+            expect(res.body.errors.name).to.be.a("string")
+            done()
+          })
+        })
+      })
+
+      describe("No email and password input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "",
+            name: "Cuka Apel",
+            password: "",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors).to.have.property("password")
+            expect(res.body.errors.email).to.be.a("string")
+            expect(res.body.errors.password).to.be.a("string")
+            done()
+          })
+        })
+      })
+      describe("No name and password input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "cuka@mail.com",
+            name: "",
+            password: "",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("name")
+            expect(res.body.errors).to.have.property("password")
+            expect(res.body.errors.name).to.be.a("string")
+            expect(res.body.errors.password).to.be.a("string")
+            done()
+          })
+        })
+      })
+
+      describe("Invalid email input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "cukamail",
+            name: "Cuka Apel",
+            password: "123",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors.email).to.be.a("string")
+            done()
+          })
+        })
+      })
+
+      describe("Invalid name input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "cuka@mail.com",
+            name: "Cuk4 @p3l",
+            password: "123",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("name")
+            expect(res.body.errors.name).to.be.a("string")
+            done()
+          })
+        })
+      })
+
+      describe("Invalid email and name input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "cukamail",
+            name: "Cuk4 @p3l",
+            password: "123",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors).to.have.property("name")
+            expect(res.body.errors.email).to.be.a("string")
+            expect(res.body.errors.name).to.be.a("string")
+            done()
+          })
+        })
+      })
+
+      describe("Invalid email, empty name and empty password input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "cukamail",
+            name: "",
+            password: "",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors).to.have.property("name")
+            expect(res.body.errors).to.have.property("password")
+            expect(res.body.errors.email).to.be.a("string")
+            expect(res.body.errors.name).to.be.a("string")
+            expect(res.body.errors.password).to.be.a("string")
+            done()
+          })
+        })
+      })
+
+      describe("Empty email, invalid name and empty password input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "",
+            name: "Cuk4 @p3l",
+            password: "",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors).to.have.property("name")
+            expect(res.body.errors).to.have.property("password")
+            expect(res.body.errors.email).to.be.a("string")
+            expect(res.body.errors.name).to.be.a("string")
+            expect(res.body.errors.password).to.be.a("string")
+            done()
+          })
+        })
+      })
+
+      describe("Invalid email, invalid name and empty password input", function() {
+        it("should return status 400 and { object error }", function(done) {
+          const objUser = {
+            email: "cukamail",
+            name: "Cuk4 @p3l",
+            password: "",
+          }
+
+          chai
+          .request(app)
+          .post("/users/register")
+          .send(objUser)
+          .end((err, res) => {
+            expect(err).to.equal(null)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors).to.have.property("name")
+            expect(res.body.errors).to.have.property("password")
+            expect(res.body.errors.email).to.be.a("string")
+            expect(res.body.errors.name).to.be.a("string")
+            expect(res.body.errors.password).to.be.a("string")
+            done()
+          })
+        })
+      })
     })
   })
 
@@ -198,7 +442,7 @@ describe("User Test", function() {
     describe("ON SUCCESS", function() {
       it("should return status 200 and { object token }", function(done) {
         let objUser = {
-          email: "afit@mail.com",
+          email: "batu@mail.com",
           password: "123"
         }
 
@@ -234,16 +478,23 @@ describe("User Test", function() {
           .send(objUser)
           .end((err, res) => {
             expect(err).to.equal(null)
-            expect(res).to.have.status(401)
+            expect(res).to.have.status(400)
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors).to.have.property("password")
+            expect(res.body.errors.email).to.be.a("string")
+            expect(res.body.errors.password).to.be.a("string")
             done()
           })
         })
       })
 
       describe("Wrong username/password", function() {
-        it("should return status 400 and { object error }", function(done) {
+        it("should return status 401 and { object error }", function(done) {
           let objUser = {
-            email: "afit@mail.com",
+            email: "batu@mail.com",
             password: "1"
           }
 
@@ -254,8 +505,13 @@ describe("User Test", function() {
           .end((err, res) => {
             expect(err).to.equal(null)
             expect(res).to.have.status(401)
-            expect(res.body).to.have.property("message")
-            expect(res.body.message).to.be.a("string")
+            expect(res.body).to.be.an("object")
+            expect(res.body).to.have.property("errors")
+            expect(res.body.errors).to.be.an("object")
+            expect(res.body.errors).to.have.property("email")
+            expect(res.body.errors).to.have.property("password")
+            expect(res.body.errors.email).to.be.a("string")
+            expect(res.body.errors.password).to.be.a("string")
             done()
           })
         })

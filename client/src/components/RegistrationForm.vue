@@ -35,7 +35,7 @@
           <v-btn
             :disabled="!valid"
             color="primary"
-            @click="validate; login()"
+            @click="validate; register()"
           >
             Submit
           </v-btn>
@@ -55,16 +55,16 @@ import Swal from 'sweetalert2'
 export default {
   data: () => ({
     valid: true,
-    emailInput: 'afit@mail.com',
+    emailInput: '',
     emailInputRules: [
       v => !!v || 'E-mail is required',
       v => /.+@.+/.test(v) || 'E-mail must be valid'
     ],
-    nameInput: 'Fitrahtur Rahman',
+    nameInput: '',
     nameInputRules: [
       v => !!v || 'Name is required'
     ],
-    passwordInput: '123',
+    passwordInput: '',
     passwordInputRules: [
       v => !!v || 'Password is required'
     ]
@@ -76,7 +76,7 @@ export default {
         this.snackbar = true
       }
     },
-    login () {
+    register () {
       axios.post('users/register', {
         email: this.emailInput,
         name: this.nameInput,
@@ -86,9 +86,9 @@ export default {
           Swal.fire({
             type: 'success',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1000
           })
-          this.$router.push({ name: 'home' })
+          this.$router.push({ name: 'login' })
         })
         .catch(err => {
           let errorMessage = ''
