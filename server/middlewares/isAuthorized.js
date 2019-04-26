@@ -7,6 +7,7 @@ module.exports = function isAuthorized(req, res, next) {
     select: "_id"
   })
   .then(foundProduct => {
+    
     if (foundProduct === null) {
       res.status(404).json({
         errors: {
@@ -14,6 +15,8 @@ module.exports = function isAuthorized(req, res, next) {
         }
       })
     }
+
+    // if (!foundProduct.createdBy.equals(req.authenticatedUser.id))
     else if (foundProduct.createdBy._id != req.authenticatedUser.id) {
       res.status(401).json({
         errors: {
