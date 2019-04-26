@@ -17,13 +17,11 @@ const getPublicUrl = (filename) => {
 const sendUploadToGCS = (req, res, next) => {
   if (!req.file) {
     Product.findOne({
-      _id: req.params.articleId,
-      author: {
-        _id: req.authenticatedUser.id
-      }
+      _id: req.params.productId,
+      createdBy: req.authenticatedUser.id
     })
-    .then(foundArticle => {
-      if (foundArticle === null) {
+    .then(foundProduct => {
+      if (foundProduct === null) {
         console.log("post with no picture")
         req.file = {
           originalname: 'no_picture',
@@ -31,9 +29,9 @@ const sendUploadToGCS = (req, res, next) => {
         }
         next()
       }
-      else if (foundArticle.featured_image !== "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png") {
+      else if (foundProduct.image !== "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png") {
         req.file = {
-          cloudStoragePublicUrl: foundArticle.featured_image
+          cloudStoragePublicUrl: foundProduct.image
         }
         next()
       }

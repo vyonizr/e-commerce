@@ -4,6 +4,7 @@
     v-model="valid"
     lazy-validation
     style="width: 300px;"
+    @submit.prevent="validate; createAproduct(); reset"
   >
     <v-text-field
       v-model="productName"
@@ -35,7 +36,7 @@
     <v-btn
       :disabled="!valid"
       color="success"
-      @click="validate; createAproduct(); reset"
+      type="submit"
     >
       Submit
     </v-btn>

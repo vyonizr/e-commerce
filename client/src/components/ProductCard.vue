@@ -32,6 +32,7 @@
               ref="updateProductForm"
               v-model="valid"
               lazy-validation
+              @submit.prevent="validate; updateAProduct(product._id)"
             >
               <v-text-field
                 v-model="productName"
@@ -59,12 +60,12 @@
                 suffix="pcs"
                 required
               ></v-text-field>
-            </v-form>
 
-            <v-card-actions class="justify-center">
-              <v-btn outline color="grey" @click="updateDialog = false">CANCEL</v-btn>
-              <v-btn color="success" @click="validate; updateAProduct(product._id)">UPDATE</v-btn>
-            </v-card-actions>
+              <v-card-actions class="justify-center">
+                <v-btn outline color="grey" @click="updateDialog = false">CANCEL</v-btn>
+                <v-btn type="submit" color="success">UPDATE</v-btn>
+              </v-card-actions>
+            </v-form>
           </v-card>
         </v-dialog>
         <v-btn mx-1 flat color="red" @click="removeProduct(product)">Delete</v-btn>
@@ -147,12 +148,7 @@ export default {
 
     updateAProduct (productId) {
       if (this.formData !== null) {
-        if (!this.formData.get('image').type.match('image.*')) {
-          Swal.fire({
-            type: 'error',
-            text: 'Please choose an image file'
-          })
-        } else if (this.formData.get('image').size > 1048576) {
+        if (this.formData.get('image').size > 1048576) {
           Swal.fire({
             type: 'error',
             title: 'Your file is too big!',
@@ -185,10 +181,32 @@ export default {
             })
         }
       } else {
-        Swal.fire({
-          type: 'error',
-          text: 'You must upload an image'
-        })
+        this.formData = new FormData()
+        this.formData.set('name', this.productName)
+        this.formData.set('price', this.productPrice)
+        this.formData.set('stock', this.productStock)
+
+        axios.patch(`/products/${productId}`, this.formData, {
+            headers: {
+              'authentication': localStorage.getItem('token')
+            }
+          })
+            .then(({ data }) => {
+              Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'Product updated',
+                showConfirmButton: false,
+                timer: 1500
+              })
+
+              this.updateDialog = false
+              this.$store.dispatch('getAllProducts')
+            // this.$router.push({ name: 'home' })
+            })
+            .catch(err => {
+              console.log(err)
+            })
       }
     },
 
