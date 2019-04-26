@@ -2,12 +2,7 @@ const { Product } = require("../models")
 
 module.exports = function isAuthorized(req, res, next) {
   Product.findById(req.params.productId)
-  .populate({
-    path: "createdBy",
-    select: "_id"
-  })
   .then(foundProduct => {
-    
     if (foundProduct === null) {
       res.status(404).json({
         errors: {
@@ -15,9 +10,7 @@ module.exports = function isAuthorized(req, res, next) {
         }
       })
     }
-
-    // if (!foundProduct.createdBy.equals(req.authenticatedUser.id))
-    else if (foundProduct.createdBy._id != req.authenticatedUser.id) {
+    else if (foundProduct.createdBy.toString() != req.authenticatedUser.id.toString()) {
       res.status(401).json({
         errors: {
           message: "You are not authorized to perform this action."

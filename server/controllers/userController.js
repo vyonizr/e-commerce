@@ -50,8 +50,8 @@ class UserController {
         if (!foundUser) {
           res.status(401).json({
             errors: {
-              email: "Invalid email/password",
-              password:"Invalid email/password"
+              email: "Invalid email",
+              password:"/password"
             }
           })
         }
@@ -73,8 +73,8 @@ class UserController {
         else {
           res.status(401).json({
             errors: {
-              email: "Invalid email/password",
-              password:"Invalid email/password"
+              email: "Invalid email",
+              password:"/password"
             }
           })
         }

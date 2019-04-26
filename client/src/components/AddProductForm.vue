@@ -111,20 +111,38 @@ export default {
             })
         }
       } else {
-        Swal.fire({
-          type: 'error',
-          text: 'You must upload an image'
-        })
+        this.formData = new FormData()
+        this.formData.set('name', this.productName)
+        this.formData.set('price', this.productPrice)
+        this.formData.set('stock', this.productStock)
+
+        axios.post('/products', this.formData, {
+            headers: {
+              'authentication': localStorage.getItem('token')
+            }
+          })
+            .then(({ data }) => {
+              Swal.fire({
+                position: 'top-end',
+                type: 'success',
+                title: 'New product created',
+                showConfirmButton: false,
+                timer: 1500
+              })
+              this.$store.dispatch('getAllProducts')
+              this.$router.push({ name: 'home' })
+            })
+            .catch(err => {
+              console.log(err)
+            })
       }
     },
 
     onFileChange (fieldName, file) {
       let imageFile = file[0]
-      console.log(imageFile)
       let formData = new FormData()
       formData.append('image', imageFile)
 
-      console.log(formData)
       this.formData = formData
     },
 

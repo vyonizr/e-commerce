@@ -8,6 +8,7 @@
           v-model="valid"
           lazy-validation
           style="width: 300px;"
+          @submit.prevent="validate; register()"
         >
 
           <v-text-field
@@ -35,7 +36,7 @@
           <v-btn
             :disabled="!valid"
             color="primary"
-            @click="validate; register()"
+            type="submit"
           >
             Submit
           </v-btn>
