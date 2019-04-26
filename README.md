@@ -52,7 +52,7 @@ as it has hooks to **clear all database collection** on every test. Then:
 ### Carts
 
 | Route | Method | Header(s) | Body | Params | Description | Response |
-| ----- | ------ | --------- | ---- | ------ | ----- | ----------- | -------- |
+| ----- | ------ | --------- | ---- | ------ | ----------- | -------- |
 | `/carts` | GET | `Authentication:token` | - | - | Get a logged in user's cart | Success<br />Code: 200<br/>body: [{object product}, {object product}, ... ]<br/><br/>Error:<br />(500)<br />body: {object error} |
 | `/carts` | POST | `Authentication:token` | `productId:String` | - | Add a product to logged in user's cart | Success<br />Code: 200<br/>body: [{object product}, {object product}, ... ]<br/><br/>Error:<br />(500)<br />body: {object error} |
 | `/carts/:productId` | DELETE | `Authentication:token` | - | `productId` | Remove a product from logged in user's cart | Success<br />Code: 200<br/>body: [{object product}, {object product}, ... ]<br/><br/>Error:<br />(500)<br />body: {object error} |
